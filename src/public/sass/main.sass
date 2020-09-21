@@ -1,0 +1,160 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap')
+
+*
+    font-family: Montserrat
+
+h1
+    font-weight: 700
+
+.table 
+    transition: .3s
+    position: relative
+
+    th:hover
+            background-color: lighten(#353a40, 10%)
+            cursor: pointer
+
+    tr:hover
+            background-color: darken(#fff, 5%)
+            cursor: pointer
+
+    .spinner
+        position: absolute
+        top: calc(50% - 125px)
+        left: calc(50% - 125px)
+        // styles taken from loading.io start
+        @keyframes spinnerSecondWrapper
+            0%
+                transform: rotate(0)
+            100%
+                transform: rotate(360deg) 
+
+
+        .spinnerSecondWrapper div
+            box-sizing: border-box!important
+        .spinnerSecondWrapper > div 
+            position: absolute
+            width: 155px
+            height: 155px
+            top: 47.5px
+            left: 47.5px
+            border-radius: 50%
+            border: 5px solid #000
+            border-color: #353a40 transparent #353a40 transparent
+            animation: spinnerSecondWrapper 1s linear infinite
+        
+        .spinnerSecondWrapper > div:nth-child(2)  
+            border-color: transparent 
+        .spinnerSecondWrapper > div:nth-child(2) div 
+            position: absolute
+            width: 100%
+            height: 100%
+            transform: rotate(45deg)
+        
+        .spinnerSecondWrapper > div:nth-child(2) div:before, .spinnerSecondWrapper > div:nth-child(2) div:after  
+            content: ""
+            display: block
+            position: absolute
+            width: 5px
+            height: 5px
+            top: -5px
+            left: 70px
+            background: #353a40
+            border-radius: 50%
+            box-shadow: 0 150px 0 0 #353a40
+        
+        .spinnerSecondWrapper > div:nth-child(2) div:after  
+            left: -5px
+            top: 70px
+            box-shadow: 150px 0 0 0 #353a40
+        
+        .spinnerFirstWrapper
+            width: 250px
+            height: 250px
+            display: inline-block
+            overflow: hidden
+            background: #fff
+        
+        .spinnerSecondWrapper 
+            width: 100%
+            height: 100%
+            position: relative
+            transform: translateZ(0) scale(1)
+            backface-visibility: hidden
+            transform-origin: 0 0
+        
+        .spinnerSecondWrapper div 
+            box-sizing: content-box
+        // styles taken from loading.io end
+
+    .pagination
+        width: 380px
+        display: flex
+        justify-content: center
+        position: absolute
+        bottom: -65px
+        left: calc(50% - 190px)
+
+        button
+            border: none
+            outline: none!important
+            padding: 10px 15px
+            background-color: #353a40
+            color: #fff
+            transition: .2s
+
+            &:disabled
+                background-color: lighten(#353a40, 15%)
+
+        .prevBtn
+            border-top-left-radius: 10px
+            border-bottom-left-radius: 10px
+        
+        .nextBtn
+            border-top-right-radius: 10px
+            border-bottom-right-radius: 10px
+
+header
+    #switchData
+        border: none
+        outline: none!important
+        padding: 10px 15px
+        background-color: #353a40
+        color: #fff
+        transition: .2s
+        border-radius: 10px
+
+        &:hover
+            background-color: lighten(#353a40, 15%)
+
+    .add
+        margin-left: 10px
+
+.modal
+    .close
+        outline: none
+
+    button[type="submit"]
+        background-color: #17a2b8
+
+        &:hover
+            background-color: darken(#17a2b8, 10%)
+
+.card
+    margin: 90px auto 50px
+    max-width: 95%
+
+    &-header p
+        margin-bottom: 0
+        float: left
+
+    .close
+        text-shadow: none
+        color: #fff
+        outline: none
+
+.fade-enter-active, .fade-leave-active 
+    transition: opacity .5s
+    
+.fade-enter, .fade-leave-to
+    opacity: 0
