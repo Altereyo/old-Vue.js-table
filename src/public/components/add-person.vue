@@ -8,10 +8,8 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form action="#" @submit="postForm()">
+                <div>
                     <div class="modal-body">
-                        <!-- | id | firstName | lastName | email | phone | 
-                            |input | input | input | input | input | -->
                             <div class="form-group">
                                 <label for="idInput">ID</label>
                                 <input type="number" required v-model="id" class="form-control" id="idInput" placeholder="Enter id">
@@ -35,15 +33,20 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Add person</button>
+                        <!-- <button type="submit" @click="post('api/small-table', postObj)" class="btn btn-primary">Add person</button> -->
+                        <button type="submit" @click="postPerson()" class="btn btn-primary">Add person</button>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </template>
 
 <script>
+// ********************************************************************************************************
+// Всё, что закомментировано в данном компоненте - это функционал добавления пользователя в БД через сервер.
+// Так как нам нужна база данных без тестовых людей, то функционал упрощён
+// ********************************************************************************************************
 export default {
     data() {
         return {
@@ -55,21 +58,53 @@ export default {
         }
     },
     methods: {
-        postForm() {
+        postPerson() {
             this.$parent.database.unshift(
                 {
                     "id": this.id,
                     "firstName": this.firstName,
                     "lastName": this.lastName,
                     "email": this.email,
-                    "phone": this.phone
+                    "phone": this.phone,
+                    "address": {
+                        "streetAddress": "street_adress",
+                        "city": "city",
+                        "state": "state",
+                        "zip": "zip"
+                    },
+                    "description": "ipsum et magna nullam odio nec fringilla dolor mattis placerat mattis aliquam quis eget sed lacus at consectetur pretium odio ipsum fringilla egestas aliquam tempor ipsum placerat odio morbi mi morbi placerat"
                 }
             )
-        }
+        },
+        // post(url, obj) {
+        //     this.postPerson()
+            
+        //     return fetch(url, {
+        //         method: 'POST',
+        //         headers: {
+        //             "Content-type": "application/json"
+        //             },
+        //         body: JSON.stringify(obj)
+        //     })
+        // }
     },
+    // computed: {
+    //     postObj() {
+    //         return  {
+    //                     "id": this.id,
+    //                     "firstName": this.firstName,
+    //                     "lastName": this.lastName,
+    //                     "email": this.email,
+    //                     "phone": this.phone,
+    //                     "address": {
+    //                         "streetAddress": "street_adress",
+    //                         "city": "city",
+    //                         "state": "state",
+    //                         "zip": "zip"
+    //                     },
+    //                     "description": "ipsum et magna nullam odio nec fringilla dolor mattis placerat mattis aliquam quis eget sed lacus at consectetur pretium odio ipsum fringilla egestas aliquam tempor ipsum placerat odio morbi mi morbi placerat"
+    //                 }
+    //     }
+    // }
 }
 </script>
-
-<style>
-
-</style>

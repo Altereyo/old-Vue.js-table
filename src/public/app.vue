@@ -1,22 +1,20 @@
 <template>
     <div>
         <header>
-            <headerblock :dbSize="currentDbSize" :smallApi="smallDataAPI" :bigApi="bigDataAPI" />
+            <headerblock :dbSize="currentDbSize" />
         </header>
         <main>
-            <tableblock :database="database" :dataLoaded="dataLoaded" />
+            <tableblock v-if="sizeChoosed" :database="database" :dataLoaded="dataLoaded" />
             <transition name="fade">
-                <chooseSize v-if="!sizeChoosed" :smallApi="smallDataAPI" :bigApi="bigDataAPI" />
-                <personInfo v-if="isPersonChosen" :person="person" />
+                <choose-size v-if="!sizeChoosed" :smallApi="smallDataAPI" :bigApi="bigDataAPI" />
+                <person-info v-if="isPersonChosen" :person="person" />
             </transition>
-            <addPerson />
+            <add-person />
         </main>
     </div>
 </template>
 
 <script>
-// TODO сделать подгрузку из файлов json (с сервера) так, чтобы не было одинаковых ключей
-
 import headerblock from "./containers/header.vue"
 import tableblock from "./containers/table.vue"
 import chooseSize from "./components/choose-size.vue"
@@ -29,33 +27,32 @@ export default {
         return {
             sizeChoosed: false,
             dataLoaded: false,
+            isPersonChosen: false,
+
             currentDbSize: '',
             database: [],
-
-            isPersonChosen: false,
             person: {},
 
-            smallDataAPI: "http://www.filltext.com/?rows=32&id={number|1000}&firstName={firstName}&lastName={lastName}&email={email}&phone={phone|(xxx)xxx-xx-xx}&address={addressObject}&description={lorem|32}",            
-            bigDataAPI:"http://www.filltext.com/?rows=1000&id=%7Bnumber%7C1000%7D&firstName=%7BfirstName%7D&delay=3&lastName=%7BlastName%7D&email=%7Bemail%7D&phone=%7Bphone%7C(xxx)xxx-xx-xx%7D&address=%7BaddressObject%7D&description=%7Blorem%7C32%7D",
+            smallDataAPI: "api/small-table",            
+            bigDataAPI:"api/big-table",
         }
-    },
+    }, 
     methods: {
         getData(api){
-            // if (api == this.smallDataAPI) {
-            //     this.currentDbSize = small
-            // }
             return fetch(api)
             .then(d => d.json())
             .then(d => this.database = d)
-            .then(() => {
-                this.dataLoaded = true
+            .then(() => { // тут удаляются люди с одинаковыми id, тк сайт filltext.com делает много дубликатов
+                let used = {}
+                this.database = this.database.filter(function(obj) {
+                    return obj.id in used ? 0 : (used[obj.id]=1)
+                })
+            })
+            .then(() => { // а тут делаем бэкап БД для функционала поиска, и сообщаем, что данные загружены
                 this.defaultDb = this.database
+                this.dataLoaded = true
             })
         }
     },
-    // mounted() {
-    //     // ТАК МОЖНО!
-    //     this.getData(this.smallDataAPI).then(() => console.log('then succesful!'))
-    // },
 };
 </script>

@@ -17,7 +17,3 @@ export default {
     props: ['countTableHeight']
 }
 </script>
-
-<style>
-
-</style>

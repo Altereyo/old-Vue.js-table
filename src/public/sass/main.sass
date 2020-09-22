@@ -9,6 +9,7 @@ h1
 .table 
     transition: .3s
     position: relative
+    margin-bottom: 0
 
     th:hover
             background-color: lighten(#353a40, 10%)
@@ -20,9 +21,9 @@ h1
 
     .spinner
         position: absolute
-        top: calc(50% - 125px)
+        top: 200px
         left: calc(50% - 125px)
-        // styles taken from loading.io start
+        // start of styles taken from loading.io
         @keyframes spinnerSecondWrapper
             0%
                 transform: rotate(0)
@@ -85,34 +86,32 @@ h1
         
         .spinnerSecondWrapper div 
             box-sizing: content-box
-        // styles taken from loading.io end
+        // end of styles taken from loading.io
 
-    .pagination
-        width: 380px
-        display: flex
-        justify-content: center
-        position: absolute
-        bottom: -65px
-        left: calc(50% - 190px)
+.pagination
+    width: 380px
+    display: flex
+    justify-content: center
+    margin: 30px auto
 
-        button
-            border: none
-            outline: none!important
-            padding: 10px 15px
-            background-color: #353a40
-            color: #fff
-            transition: .2s
+    button
+        border: none
+        outline: none!important
+        padding: 10px 15px
+        background-color: #353a40
+        color: #fff
+        transition: .2s
 
-            &:disabled
-                background-color: lighten(#353a40, 15%)
+        &:disabled
+            background-color: lighten(#353a40, 15%)
 
-        .prevBtn
-            border-top-left-radius: 10px
-            border-bottom-left-radius: 10px
-        
-        .nextBtn
-            border-top-right-radius: 10px
-            border-bottom-right-radius: 10px
+    .prevBtn
+        border-top-left-radius: 10px
+        border-bottom-left-radius: 10px
+    
+    .nextBtn
+        border-top-right-radius: 10px
+        border-bottom-right-radius: 10px
 
 header
     #switchData
@@ -141,7 +140,7 @@ header
             background-color: darken(#17a2b8, 10%)
 
 .card
-    margin: 90px auto 50px
+    margin: 0 auto 50px
     max-width: 95%
 
     &-header p

@@ -4,16 +4,16 @@
             <button class="btn btn-outline-info my-2 my-sm-0" @click="switchDB()">Switch DB size to {{ switchSizeTo }}</button>
             <button class="btn btn-outline-info my-2 my-sm-0 add" data-toggle="modal" data-target="#addPerson">Add person</button>
         </div>
-        <form class="form-inline" @submit="searchItem()">
-            <input type="search" class="form-control mr-sm-2" v-model="filterValue" aria-label="Search" />
-            <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <div class="form-inline">
+            <input type="search" class="form-control mr-sm-2" @change="searchItem()" v-model="filterValue"/>
+            <button class="btn btn-outline-info my-2 my-sm-0" @click="searchItem()">Search</button>
+        </div>
     </nav>
 </template>
 
 <script>
 export default {
-    props: ['dbSize', 'smallApi', 'bigApi'],
+    props: ['dbSize'],
     data() {
         return {
             filterValue: '',
@@ -34,21 +34,21 @@ export default {
                     ) { return true }
                 })
             }
+            this.$parent.$children.find(child => child.$options._componentTag == 'tableblock').turnToFirstPage()
         },
 
         switchDB() {
-            console.log(this.$parent.$children[1])
             this.$parent.$children.find(child => child.$options._componentTag == 'tableblock').turnToFirstPage()
             this.$parent.dataLoaded = false
             this.$parent.pageNum = 1
 
             if (this.dbSize == 'small') {
                 this.$parent.currentDbSize = 'big'
-                this.$parent.getData(this.bigApi)
+                this.$parent.getData('api/big-table')
             }
             else if(this.dbSize == 'big') {
                 this.$parent.currentDbSize = 'small'
-                this.$parent.getData(this.smallApi)
+                this.$parent.getData('api/small-table')
             }
         }
     },

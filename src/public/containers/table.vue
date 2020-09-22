@@ -1,4 +1,5 @@
 <template>
+<div>
     <table class="table">
         <thead class="thead-dark">
             <tr>
@@ -16,25 +17,20 @@
                     <td>{{ person.email }}</td>
                     <td>{{ person.phone }}</td>
                 </tr>
-                <div class="pagination">
-                    <button class="prevBtn" @click="prevPage()" :disabled="pageNumber == 1"><span>&laquo;</span></button>
-                    <button :class="calcBtnClass(page)" @click="changePage(page)" @reloadpages="pageNumber = 1" v-for="page of setPages" :disabled="page == pageNumber" :key="page">
-                        <span>{{ page }}</span>
-                    </button>
-                    <button class="nextBtn" @click="nextPage()" :disabled="pageNumber == maxPagesCount"><span>&raquo;</span></button>
-                </div>
             </tbody>
         </transition>
     </table>
+    <pagination :pageNumber="pageNumber" :maxPagesCount="maxPagesCount"/>
+</div>
 </template>
 
 <script>
-// TODO добавить компонент рендера каждой персоны, но закешированной для каждой БД через vue keep-alive
 import spinner from "../components/spinner.vue"
+import pagination from "../components/pagination.vue"
 
 export default {
     props: ['database', 'dataLoaded'],
-    components: { spinner },
+    components: { spinner, pagination },
     data() {
         return {
             tHeaders: ["id", "firstName", "lastName", "email", "phone"],
@@ -42,8 +38,7 @@ export default {
             paginatedDb: [],
 
             pageNumber: 1,
-            pageSize: 10,
-            pages: [],
+            pageSize: 50,
 
             currentSortBy: '',
             isCurrentSortReversed: false
@@ -59,25 +54,13 @@ export default {
             let end = this.pageNumber * this.pageSize
             this.paginatedDb = this.database.slice(start, end)
         },
-        nextPage() {
-            this.pageNumber++
-        },
-        prevPage() {
-            this.pageNumber--
-        },
-        changePage(num) {
-            this.pageNumber = num
-        },
-        calcBtnClass(page) {
-            if (page == this.pageNumber) return 
-        },
         showArrow(header) {
             if (this.currentSortBy == header) {
                 if (this.isCurrentSortReversed) {
-                    return ' ∧'
+                    return ' ▲'
                 }
                 if (!this.isCurrentSortReversed) {
-                    return ' ∨'
+                    return ' ▼'
                 }
             }
             else {
@@ -121,31 +104,6 @@ export default {
         countTableHeight() {
             let px = this.pageSize * 48.8
             return 'height: ' + px + 'px;' 
-        },
-        setPages() {
-            let fivePages = []
-
-            if (this.maxPagesCount < 5) {
-                for (let i = 1; i <= this.maxPagesCount; i++) {
-                    fivePages.push(i)
-                }
-            }
-            else if (this.pageNumber <= 3) {
-                for(let i = 1; i <= 5; i++) {
-                    fivePages.push(i)
-                }
-            }
-            else if (this.pageNumber >= this.maxPagesCount - 3) {
-                for(let i = this.maxPagesCount - 5; i <= this.maxPagesCount; i++) {
-                    fivePages.push(i)
-                }
-            }
-            else {
-                for(let i = this.pageNumber - 2; i <= this.pageNumber + 2; i++) {
-                    fivePages.push(i)
-                }
-            }
-            return fivePages
         }
     }
 }

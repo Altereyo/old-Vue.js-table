@@ -38,8 +38,8 @@ export default {
         top: 0px;
         left: 0px;
         z-index: 999;
-        width: 100vw;
-        height: 100vh;
+        width: 100%;
+        height: 100%;
 
         h1 {
             margin-bottom: 20px;
