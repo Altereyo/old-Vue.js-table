@@ -38,7 +38,7 @@ export default {
             paginatedDb: [],
 
             pageNumber: 1,
-            pageSize: 50,
+            pageSize: 15,
 
             currentSortBy: '',
             isCurrentSortReversed: false
@@ -59,7 +59,7 @@ export default {
                 if (this.isCurrentSortReversed) {
                     return ' ▲'
                 }
-                if (!this.isCurrentSortReversed) {
+                else if (!this.isCurrentSortReversed) {
                     return ' ▼'
                 }
             }
